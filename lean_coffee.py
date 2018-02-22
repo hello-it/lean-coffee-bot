@@ -4,6 +4,8 @@ from telebot import types
 import operator
 
 
+# TODO: Please, move it to src folder
+
 # Configuration ######################################################
 bot = telebot.TeleBot('452287428:AAGZN3UERRMHScNzD6tK6IG9h_6AB_HXglY')
 
