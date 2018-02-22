@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
+
 import telebot.util
-from telebot import types
 import operator
 
+from telebot import types
 
-# TODO: Please, move it to src folder
-
+# TODO: Move it to config.ini
 # Configuration ######################################################
 bot = telebot.TeleBot('452287428:AAGZN3UERRMHScNzD6tK6IG9h_6AB_HXglY')
 
