@@ -1,3 +1,3 @@
 # -*- coding: utf-8 -*-
 
-__all__ = ['lean_coffee', 'spreadsheet.py']
+__all__ = ['lean_coffee.py', 'spreadsheet.py']

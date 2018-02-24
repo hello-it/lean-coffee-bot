@@ -1,19 +1,23 @@
 # -*- coding: utf-8 -*-
 
-import telebot.util
-import operator
-
 from telebot import types
+from telebot import TeleBot
+from spreadsheet import Spreadsheet
 
-# TODO: Move it to config.ini
-# Configuration ######################################################
-bot = telebot.TeleBot('452287428:AAGZN3UERRMHScNzD6tK6IG9h_6AB_HXglY')
+import operator
+import sys
+import os
 
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'resources'))
+from config import token
+
+
+bot = TeleBot(token)
+spreadsheet = Spreadsheet()
 owner_id = ''
 lean_coffee = {}
 themes = set()
 voting = False
-######################################################################
 
 
 @bot.message_handler(commands=['lean'])
@@ -131,8 +135,7 @@ def stop(message):
     if owner_id:
         if message.chat.id == owner_id:
             if voting:
-                voting = False
-
+                # Sorting
                 results = {}
                 for participant in lean_coffee:
                     for theme in lean_coffee[participant]:
@@ -144,14 +147,24 @@ def stop(message):
                 sorted_tuple = sorted(results.items(), key=operator.itemgetter(1), reverse=True)
                 themes_result = '\n'.join([entry[0] + ' (' + str(entry[1]) + ')' for entry in sorted_tuple])
 
+                # Storing
+                for entry in sorted_tuple:
+                    theme = entry[0]
+                    rating = str(entry[1])
+                    spreadsheet.insert("", theme, "OPEN", rating, "0")
+
+                # Resting
                 themes = set()
                 for participant in lean_coffee:
                     lean_coffee[participant] = {}
 
+                # Notifying
                 markup = types.ReplyKeyboardRemove()
                 for participant in lean_coffee.keys():
                     bot.send_message(participant, 'Vote stopped', reply_markup=markup)
                     bot.send_message(participant, 'Themes:\n' + themes_result)
+
+                voting = False
             else:
                 bot.send_message(owner_id, 'Vote is not started yet')
         else:
