@@ -217,7 +217,7 @@ def text(message):
             for theme in votes.keys():
                 markup.add(types.KeyboardButton((unvote_key if votes[theme] else vote_key) + theme))
 
-            bot.send_message(message.chat.id, 'Vote changed', reply_markup=markup)
+            bot.send_message(message.chat.id, 'Vote added', reply_markup=markup)
     else:
         bot.send_message(message.chat.id, 'Lean session is not started yet')
 
@@ -225,5 +225,6 @@ def text(message):
 if __name__ == '__main__':
     try:
         bot.polling(none_stop=True)
-    except BaseException:
+    except BaseException as exception:
+        print(exception)
         print('Connection refused')
