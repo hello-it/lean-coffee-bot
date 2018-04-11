@@ -38,7 +38,7 @@ class Spreadsheet(object):
             flow = client.flow_from_clientsecrets(secret_file, scopes)
             flow.user_agent = app_name
             credentials = tools.run_flow(flow, store)
-            print '[INFO] Storing credentials to ' + credential_path
+            print('[INFO] Storing credentials to ' + credential_path)
         return credentials
 
     def get_service(self):
@@ -46,13 +46,13 @@ class Spreadsheet(object):
         http = credentials.authorize(httplib2.Http())
         return discovery.build('sheets', 'v4', http=http, discoveryServiceUrl=discovery_url)
 
-    def insert(self, topic, theme, status, points, cycles):
+    def insert(self, date, topic, theme, status, points, cycles):
         insert_range = 'B1'
         value_input_option = 'RAW'
         insert_data_option = 'INSERT_ROWS'
         value_range_body = {
             "values": [
-                [topic, theme, status, points, cycles],
+                [date, topic, theme, status, points, cycles],
             ]
         }
 

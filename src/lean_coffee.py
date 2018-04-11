@@ -5,6 +5,7 @@ from telebot import TeleBot
 from spreadsheet import Spreadsheet
 
 import operator
+import datetime
 import sys
 import os
 
@@ -148,10 +149,16 @@ def stop(message):
                 themes_result = '\n'.join([entry[0] + ' (' + str(entry[1]) + ')' for entry in sorted_tuple])
 
                 # Storing
+                now = datetime.datetime.now()
                 for entry in sorted_tuple:
                     theme = entry[0]
                     rating = str(entry[1])
-                    spreadsheet.insert("", theme, "OPEN", rating, "0")
+                    spreadsheet.insert(now.strftime("%B")[:3] + now.strftime(". %d"),
+                                       "",
+                                       theme,
+                                       "OPEN",
+                                       rating,
+                                       "0")
 
                 # Resting
                 themes = set()
@@ -219,4 +226,4 @@ if __name__ == '__main__':
     try:
         bot.polling(none_stop=True)
     except BaseException:
-        print 'Connection refused'
+        print('Connection refused')
